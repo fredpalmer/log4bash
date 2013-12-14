@@ -43,6 +43,7 @@ then
     declare -r LOG_INFO_COLOR=""
     declare -r LOG_SUCCESS_COLOR=""
     declare -r LOG_WARN_COLOR=""
+    declare -r LOG_DEBUG_COLOR=""
 else
     declare -r LOG_DEFAULT_COLOR="\033[0m"
     declare -r LOG_ERROR_COLOR="\033[1;31m"
