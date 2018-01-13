@@ -14,6 +14,15 @@ SCRIPT_NAME="${SCRIPT_NAME#\./}"
 SCRIPT_NAME="${SCRIPT_NAME##/*/}"
 SCRIPT_BASE_DIR="$(cd "$( dirname "$0")" && pwd )"
 
+#
+# Configuration settings
+#
+
+# The default time format string
+log4bash_timefmt="+%Y-%m-%d %H:%M:%S %Z"
+
+context=()
+
 # This should probably be the right way - didn't have time to experiment though
 # declare -r INTERACTIVE_MODE="$([ tty --silent ] && echo on || echo off)"
 declare -r INTERACTIVE_MODE=$([ "$(uname)" == "Darwin" ] && echo "on" || echo "off")
@@ -61,6 +70,21 @@ prepare_log_for_nonterminal() {
     sed "s/[[:cntrl:]]\[[0-9;]*m//g"
 }
 
+context_push() {
+    while [ "$1" ]; do
+        context+=($1); shift
+    done
+}
+
+context_pop() {
+    unset context[${#context[@]}-1]
+}
+
+join_by() {
+    local IFS="$1"; shift
+    echo "$*"
+}
+
 log() {
     local log_text="$1"
     local log_level="$2"
@@ -70,7 +94,7 @@ log() {
     [[ -z ${log_level} ]] && log_level="INFO";
     [[ -z ${log_color} ]] && log_color="${LOG_INFO_COLOR}";
 
-    echo -e "${log_color}[$(date +"%Y-%m-%d %H:%M:%S %Z")] [${log_level}] ${log_text} ${LOG_DEFAULT_COLOR}";
+    echo -e "${log_color}$(join_by ' ' [$(date "${log4bash_timefmt}")] [${log_level}] ${context[@]} ${log_text})${LOG_DEFAULT_COLOR}";
     return 0;
 }
 
