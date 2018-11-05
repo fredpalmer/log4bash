@@ -16,19 +16,20 @@ SCRIPT_BASE_DIR="$(cd "$( dirname "$0")" && pwd )"
 
 # This should probably be the right way - didn't have time to experiment though
 # declare -r INTERACTIVE_MODE="$([ tty --silent ] && echo on || echo off)"
-declare -r INTERACTIVE_MODE=$([ "$(uname)" == "Darwin" ] && echo "on" || echo "off")
+# declare -r INTERACTIVE_MODE=$([ "$(uname)" == "Darwin" ] && echo "on" || echo "off")
+INTERACTIVE_MODE=on
 
 #--------------------------------------------------------------------------------------------------
 # Begin Help Section
 
-HELP_TEXT=""
+# HELP_TEXT=""
 
 # This function is called in the event of an error.
 # Scripts which source this script may override by defining their own "usage" function
-usage() {
-    echo -e "${HELP_TEXT}";
-    exit 1;
-}
+# usage() {
+#    echo -e "${HELP_TEXT}";
+#    exit 1;
+# }
 
 # End Help Section
 #--------------------------------------------------------------------------------------------------
