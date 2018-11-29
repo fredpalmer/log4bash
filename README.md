@@ -21,6 +21,7 @@ Fred Palmer
     log_info "I have you now!";
     log_success "You're all clear kid, now let's blow this thing and go home.";
     log_error "One thing's for sure, we're all gonna be a lot thinner.";
+    log_debug "It's time to dig it...Lets go...";
 
     # If you have figlet installed -- you'll see some big letters on the screen!
     log_captains "What was in the captain's toilet?";
@@ -54,6 +55,10 @@ Fred Palmer
 * **log_error**
 
     Prints an "ERROR" level message to stdout with the timestamp of the occurrence.
+    
+* **log_debug**
+
+    Prints an "DEBUG" level message to stdout with the timestamp of the occurrence.
 
 ### Special Logging Abilities
 
