@@ -21,6 +21,9 @@ SCRIPT_BASE_DIR="$(cd "$( dirname "$0")" && pwd )"
 # The default time format string
 log4bash_timefmt="+%Y-%m-%d %H:%M:%S %Z"
 
+# The default list of log handler functions
+log4bash_handlers=("log_echo")
+
 context=()
 
 # This should probably be the right way - didn't have time to experiment though
@@ -85,6 +88,13 @@ join_by() {
     echo "$*"
 }
 
+#
+# Handlers
+#
+log_echo() {
+    echo -e "$*"
+}
+
 log() {
     local log_text="$1"
     local log_level="$2"
@@ -94,7 +104,14 @@ log() {
     [[ -z ${log_level} ]] && log_level="INFO";
     [[ -z ${log_color} ]] && log_color="${LOG_INFO_COLOR}";
 
-    echo -e "${log_color}$(join_by ' ' [$(date "${log4bash_timefmt}")] [${log_level}] ${context[@]} ${log_text})${LOG_DEFAULT_COLOR}";
+    # First build the log message
+    msg="${log_color}$(join_by ' ' [$(date "${log4bash_timefmt}")] [${log_level}] ${context[@]} ${log_text})${LOG_DEFAULT_COLOR}";
+
+    # And then dispatch it to handlers
+    for handler in ${log4bash_handlers[@]}; do
+        eval $handler \"$msg\"
+    done
+
     return 0;
 }
 

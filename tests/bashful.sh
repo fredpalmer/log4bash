@@ -46,3 +46,17 @@ log_success "Task has ended";
 context_pop;
 
 log_info "Taking another task from queue";
+
+#
+# Now to add some new handlers
+#
+
+log_syslog() {
+	logger "$*" 
+}
+
+# Add the handler at the end of the chain
+log4bash_handlers+=("log_syslog")
+
+log_info "This message will also be logged to syslog, check it now"
+
