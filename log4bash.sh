@@ -100,7 +100,7 @@ log_debug()     { log "$1" "DEBUG" "${LOG_DEBUG_COLOR}"; }
 log_captains()  {
     if type -P figlet >/dev/null;
     then
-        figlet -f computer -w 120 "$1";
+        figlet -w 120 "$1";
     else
         log "$1";
     fi
